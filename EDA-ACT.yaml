@@ -1,0 +1,183 @@
+veos:
+  # Define the global vEOS node parameters
+  username: cvpadmin
+  password: cvp123!
+  version: 4.29.2F
+
+cvp:
+  # Define the global CVP node parameters
+  username: root
+  password: cvproot
+  version: 2022.3.1
+  instance: singlenode
+
+generic:
+  # Define the global generic node parameters
+  version: Rocky-8.5
+  username: arista
+  password: arista
+
+nodes:
+  # Define individual node parameters
+  #   - Parameters here will override global parameters
+  - DC1-SPINE1:
+      ip_addr: 192.168.0.11
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-LEAF1A
+          neighborPort: Ethernet1
+          port: Ethernet1
+        - neighborDevice: DC1-LEAF1B
+          neighborPort: Ethernet1
+          port: Ethernet2
+        - neighborDevice: DC1-LEAF2A
+          neighborPort: Ethernet1
+          port: Ethernet3
+        - neighborDevice: DC1-LEAF2B
+          neighborPort: Ethernet1
+          port: Ethernet4
+
+  - DC1-SPINE2:
+      ip_addr: 192.168.0.12
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-LEAF1A
+          neighborPort: Ethernet2
+          port: Ethernet1
+        - neighborDevice: DC1-LEAF1B
+          neighborPort: Ethernet2
+          port: Ethernet2
+        - neighborDevice: DC1-LEAF2A
+          neighborPort: Ethernet2
+          port: Ethernet3
+        - neighborDevice: DC1-LEAF2B
+          neighborPort: Ethernet2
+          port: Ethernet4
+
+  - DC1-LEAF1A:
+      ip_addr: 192.168.0.13
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-SPINE1
+          neighborPort: Ethernet1
+          port: Ethernet1
+        - neighborDevice: DC1-SPINE2
+          neighborPort: Ethernet1
+          port: Ethernet2
+        - neighborDevice: DC1-LEAF1B
+          neighborPort: Ethernet3
+          port: Ethernet3
+        - neighborDevice: DC1-LEAF1B
+          neighborPort: Ethernet4
+          port: Ethernet4
+        - neighborDevice: DC1-L2LEAF1A
+          neighborPort: Ethernet1
+          port: Ethernet5
+
+  - DC1-LEAF1B:
+      ip_addr: 192.168.0.14
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-SPINE1
+          neighborPort: Ethernet2
+          port: Ethernet1
+        - neighborDevice: DC1-SPINE2
+          neighborPort: Ethernet2
+          port: Ethernet2
+        - neighborDevice: DC1-LEAF1A
+          neighborPort: Ethernet3
+          port: Ethernet3
+        - neighborDevice: DC1-LEAF1A
+          neighborPort: Ethernet4
+          port: Ethernet4
+        - neighborDevice: DC1-L2LEAF1A
+          neighborPort: Ethernet2
+          port: Ethernet5
+
+  - DC1-L2LEAF1A:
+      ip_addr: 192.168.0.17
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-LEAF1A
+          neighborPort: Ethernet5
+          port: Ethernet1
+        - neighborDevice: DC1-LEAF1B
+          neighborPort: Ethernet5
+          port: Ethernet2
+        - neighborDevice: Server01
+          neighborPort: Ethernet1
+          port: Ethernet3
+
+  - DC1-LEAF2A:
+      ip_addr: 192.168.0.15
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-SPINE1
+          neighborPort: Ethernet3
+          port: Ethernet1
+        - neighborDevice: DC1-SPINE2
+          neighborPort: Ethernet3
+          port: Ethernet2
+        - neighborDevice: DC1-LEAF2B
+          neighborPort: Ethernet3
+          port: Ethernet3
+        - neighborDevice: DC1-LEAF2B
+          neighborPort: Ethernet4
+          port: Ethernet4
+        - neighborDevice: DC1-L2LEAF2A
+          neighborPort: Ethernet1
+          port: Ethernet5
+
+  - DC1-LEAF2B:
+      ip_addr: 192.168.0.16
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-SPINE1
+          neighborPort: Ethernet4
+          port: Ethernet1
+        - neighborDevice: DC1-SPINE2
+          neighborPort: Ethernet4
+          port: Ethernet2
+        - neighborDevice: DC1-LEAF2A
+          neighborPort: Ethernet3
+          port: Ethernet3
+        - neighborDevice: DC1-LEAF2A
+          neighborPort: Ethernet4
+          port: Ethernet4
+        - neighborDevice: DC1-L2LEAF2A
+          neighborPort: Ethernet2
+          port: Ethernet5
+
+  - DC1-L2LEAF2A:
+      ip_addr: 192.168.0.18
+      node_type: veos
+      neighbors:
+        - neighborDevice: DC1-LEAF2A
+          neighborPort: Ethernet5
+          port: Ethernet1
+        - neighborDevice: DC1-LEAF2B
+          neighborPort: Ethernet5
+          port: Ethernet2
+        - neighborDevice: Server02
+          neighborPort: Ethernet1
+          port: Ethernet3
+
+  - Server01:
+      ip_addr: 192.168.0.20
+      node_type: generic
+      neighbors:
+        - neighborDevice: DC1-L2LEAF1A
+          neighborPort: Ethernet3
+          port: Ethernet1
+
+  - Server02:
+      ip_addr: 192.168.0.21
+      node_type: generic
+      neighbors:
+        - neighborDevice: DC1-L2LEAF2A
+          neighborPort: Ethernet3
+          port: Ethernet1
+
+  - cvp:
+      ip_addr: 192.168.0.5
+      node_type: cvp

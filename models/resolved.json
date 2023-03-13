@@ -1,0 +1,82 @@
+{
+    "receiver": "EDAwebhook",
+    "status": "resolved",
+    "alerts": [
+      {
+        "status": "resolved",
+        "labels": {
+          "deviceHostname": "DC1-LEAF1A",
+          "deviceId": "SN-DC1-LEAF1A",
+          "deviceTag_Container": "Tenant,Undefined",
+          "deviceTag_bgp": "disabled",
+          "deviceTag_device": "DC1-LEAF1A,DC1-LEAF1A-SN-DC1-LEAF1A,SN-DC1-LEAF1A",
+          "deviceTag_eos": "4.29.2F",
+          "deviceTag_eostrain": "4.29",
+          "deviceTag_hostname": "DC1-LEAF1A",
+          "deviceTag_model": "vEOS-lab",
+          "deviceTag_mpls": "false",
+          "deviceTag_serialnumber": "SN-DC1-LEAF1A",
+          "deviceTag_systype": "fixed",
+          "deviceTag_tapagg": "none",
+          "deviceTag_terminattr": "v1.25.0",
+          "deviceTag_topology_network_type": "datacenter",
+          "deviceTag_ztp": "false",
+          "eventKey": "8348238b9912b0e5",
+          "eventType": "DEVICE_INTF_ERR_SMART",
+          "interfaceId": "Ethernet2",
+          "interfaceTag_device": "DC1-LEAF1A,DC1-LEAF1A-SN-DC1-LEAF1A,SN-DC1-LEAF1A",
+          "interfaceTag_interface": "DC1-LEAF1A-Ethernet2,Ethernet2@DC1-LEAF1A,Ethernet2@SN-DC1-LEAF1A,SN-DC1-LEAF1A-Ethernet2",
+          "interfaceTag_name": "Ethernet2",
+          "interfaceTag_speed": "speed1Gbps",
+          "interfaceTag_type": "device",
+          "severity": "WARNING",
+          "turbineId": ""
+        },
+        "annotations": {
+          "description": "Interface Ethernet2 on SN-DC1-LEAF1A is operationally down but administrative status is not shutdown",
+          "title": "Interface went down unexpectedly"
+        },
+        "startsAt": "2023-03-09T11:49:18.79675968-05:00",
+        "endsAt": "2023-03-09T12:06:22.803423776-05:00",
+        "generatorURL": "https://10.255.68.127/cv/events/8348238b9912b0e5/1678380558796",
+        "fingerprint": "8348238b9912b0e5"
+      }
+    ],
+    "groupLabels": {},
+    "commonLabels": {
+      "deviceHostname": "DC1-LEAF1A",
+      "deviceId": "SN-DC1-LEAF1A",
+      "deviceTag_Container": "Tenant,Undefined",
+      "deviceTag_bgp": "disabled",
+      "deviceTag_device": "DC1-LEAF1A,DC1-LEAF1A-SN-DC1-LEAF1A,SN-DC1-LEAF1A",
+      "deviceTag_eos": "4.29.2F",
+      "deviceTag_eostrain": "4.29",
+      "deviceTag_hostname": "DC1-LEAF1A",
+      "deviceTag_model": "vEOS-lab",
+      "deviceTag_mpls": "false",
+      "deviceTag_serialnumber": "SN-DC1-LEAF1A",
+      "deviceTag_systype": "fixed",
+      "deviceTag_tapagg": "none",
+      "deviceTag_terminattr": "v1.25.0",
+      "deviceTag_topology_network_type": "datacenter",
+      "deviceTag_ztp": "false",
+      "eventKey": "8348238b9912b0e5",
+      "eventType": "DEVICE_INTF_ERR_SMART",
+      "interfaceId": "Ethernet2",
+      "interfaceTag_device": "DC1-LEAF1A,DC1-LEAF1A-SN-DC1-LEAF1A,SN-DC1-LEAF1A",
+      "interfaceTag_interface": "DC1-LEAF1A-Ethernet2,Ethernet2@DC1-LEAF1A,Ethernet2@SN-DC1-LEAF1A,SN-DC1-LEAF1A-Ethernet2",
+      "interfaceTag_name": "Ethernet2",
+      "interfaceTag_speed": "speed1Gbps",
+      "interfaceTag_type": "device",
+      "severity": "WARNING",
+      "turbineId": ""
+    },
+    "commonAnnotations": {
+      "description": "Interface Ethernet2 on SN-DC1-LEAF1A is operationally down but administrative status is not shutdown",
+      "title": "Interface went down unexpectedly"
+    },
+    "externalURL": "https://10.255.68.127/cv/events",
+    "version": "4",
+    "groupKey": "",
+    "truncatedAlerts": 0
+  }
