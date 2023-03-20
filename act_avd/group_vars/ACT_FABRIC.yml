@@ -1,0 +1,146 @@
+---
+# L3LS Fabric Values - update these values with caution,
+# SOME CHANGES COULD BE DISRUPTIVE.
+
+fabric_name: ACT_FABRIC
+
+# Enable vlan aware bundles
+vxlan_vlan_aware_bundles: true
+
+# bgp peer groups passwords
+bgp_peer_groups:
+  IPv4_UNDERLAY_PEERS:
+    password: "AQQvKeimxJu+uGQ/yYvv9w=="
+  EVPN_OVERLAY_PEERS:
+    password: "q+VNViP5i4rVjW1cxFv2wA=="
+  MLAG_IPv4_UNDERLAY_PEER:
+    password: "vnEaG8gMeQf3d3cN6PktXQ=="
+
+custom_auth: |
+  no aaa root
+  no username admin
+  !
+  username arista privilege 15 role network-admin secret sha512 $6$ZGX/X07MoiWP9hvX$3UaAtOAiBGc54DYHdQt5dsr5P2HLydxjrda51Zw69tSsF4tahXPVj26PwOiZUy/xFRZL3CAkT7.lsOPqWfIbU0
+  username cvpadmin secret sha512 $6$b5ooVf8wwJ9RASO4$lemv5BkGkm4G6J1Ipx1FEdjJ6CGdonsA3rIIW0tda47DZzUDzbsDdjl5HypWq9W887rDqXYgiiAmntMkjl0j61
+  username ec2-user shell /bin/bash nopassword
+  username ec2-user ssh-key ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCx9ovLSX53Xe1tnZsdzF2MZT+amyidXEpHsu7lRWLcGf+XwnRBjh9WZ45W4bzPFum6HthOVL47If4zes6Zb5kS0OK44T4G4gR75Wg+m9Wa6RveyTGG4AFt3hY6fsyFEedNDVYajlRumGmmp8hFphvzc+5djHVFIYuaZ0L7dDVjEeLqBBl+WUGNQoLmIp0c5Fot1PYiE3xIsqUw2SS9waM14JSYlkL5JcNYbb9LkTdD+BUHy3PspUy5Vvl5SdkgsTJaROPFBosfVoMJN8bKpYAJq5kujHLpu0x5Ted/+gt3Ty9X/TRzawQ5AyIJuF3q/fJM3CLqbOYSU3TJh6v7wR/XGcM34F9Z6xxcSzSwC+O0x2JsGt2LudR6fZ0MRptbPH5Kcm4byFVRG4nrwWQ7AZTNJf5hVk+SnLFvpP0cH1EX26daZg1shJ2bRrpEj+gXA95tdv4hqI1Ow6Bhd1ccCY5A9mZIQlDTPLMVm/gvtJ3l3XA6SmWqJ0PHkd2gRbSKzE= root@99ec9ced54b0
+  username service shell /bin/bash secret sha512 $6$IXGGY4/R8KIWlktJ$Cwbq65lDCju2YJcbHybnCw5Xd7yvIxYC0BHXpA06QZhoc278DaXMVtptZX38M/G1ijvFtp7JNkylz8uXXqH6o0
+  !
+  agent KernelFib environment KERNELFIB_PROGRAM_ALL_ECMP='true'
+  !
+  daemon TerminAttr
+    exec /usr/bin/TerminAttr -cvcompression=gzip -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=192.168.0.5:9910 -cvauth=token,/tmp/token -cvvrf=default -taillogs
+    no shutdown
+
+# Spine Switches
+spine:
+  defaults:
+    platform: vEOS-LAB
+    bgp_as: 65001
+    loopback_ipv4_pool: 192.0.255.0/24
+    bgp_defaults:
+      - 'no bgp default ipv4-unicast'
+      - 'distance bgp 20 200 200'
+      - 'graceful-restart restart-time 300'
+      - 'graceful-restart'
+    mlag: false
+    raw_eos_cli: "{{ custom_auth }}"
+  nodes:
+    DC1-SPINE1:
+      id: 1
+      mgmt_ip: 192.168.0.11/24
+    DC1-SPINE2:
+      id: 2
+      mgmt_ip: 192.168.0.12/24
+
+# Leaf switch groups
+# A maximum of two nodes can form a leaf group
+# When two nodes are in a leaf group this will automatically form mlag pair
+
+l3leaf:
+  defaults:
+    platform: vEOS-LAB
+    loopback_ipv4_pool: 192.0.255.0/24
+    loopback_ipv4_offset: 2
+    vtep_loopback_ipv4_pool: 192.0.254.0/24
+    uplink_interfaces: [Ethernet1, Ethernet2]
+    uplink_switches: [DC1-SPINE1, DC1-SPINE2]
+    uplink_ipv4_pool: 172.30.255.0/24
+    mlag_interfaces: [Ethernet3, Ethernet4]
+    mlag_peer_ipv4_pool: 10.255.252.0/24
+    mlag_peer_l3_ipv4_pool: 10.255.251.0/24
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    bgp_defaults:
+      - 'no bgp default ipv4-unicast'
+      - 'distance bgp 20 200 200'
+      - 'graceful-restart restart-time 300'
+      - 'graceful-restart'
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    filter:
+      # only_vlans_in_use: true
+    raw_eos_cli: "{{ custom_auth }}"
+  node_groups:
+    POD1:
+      bgp_as: 65101
+      nodes:
+        DC1-LEAF1A:
+          id: 1
+          mgmt_ip: 192.168.0.13/24
+          uplink_switch_interfaces: [Ethernet1, Ethernet1]
+        DC1-LEAF1B:
+          id: 2
+          mgmt_ip: 192.168.0.14/24
+          uplink_switch_interfaces: [Ethernet2, Ethernet2]
+    POD2:
+      bgp_as: 65102
+      nodes:
+        DC1-LEAF2A:
+          id: 3
+          mgmt_ip: 192.168.0.15/24
+          uplink_switch_interfaces: [Ethernet3, Ethernet3]
+        DC1-LEAF2B:
+          id: 4
+          mgmt_ip: 192.168.0.16/24
+          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+
+l2leaf:
+  defaults:
+    platform: vEOS-lab
+    uplink_interfaces: [Ethernet1, Ethernet2]
+    spanning_tree_mode: mstp
+    raw_eos_cli: "{{ custom_auth }}"
+
+  node_groups:
+    DC1_L2_LEAF1:
+      uplink_switches: [DC1-LEAF1A, DC1-LEAF1B]
+      nodes:
+        DC1-L2LEAF1A:
+          id: 1
+          mgmt_ip: 192.168.0.17/24
+          uplink_switch_interfaces:
+            - Ethernet5
+            - Ethernet5
+
+    DC1_L2_LEAF2:
+      uplink_switches: [DC1-LEAF2A, DC1-LEAF2B]
+      nodes:
+        DC1-L2LEAF2A:
+          id: 2
+          mgmt_ip: 192.168.0.18/24
+          uplink_switch_interfaces: [Ethernet5, Ethernet5]
+
+#### Override for vEOS Lab Caveats ####
+
+# Disable update wait-for-convergence and update wait-for-install,
+# which is not supported in vEOS-LAB.
+# Refer to design guide
+
+# Update p2p mtu 9000 -> 1500
+p2p_uplinks_mtu: 1500
+
+# Adjust default bfd values
+bfd_multihop:
+  interval: 1200
+  min_rx: 1200
+  multiplier: 3

@@ -1,0 +1,26 @@
+
+Topology: {
+dc1-spine1 -- dc1-leaf1a: port: eth1\nneighbor: eth1
+dc1-spine1 -- dc1-leaf1b: port: eth2\nneighbor: eth1
+dc1-spine1 -- dc1-leaf2a: port: eth3\nneighbor: eth1
+dc1-spine1 -- dc1-leaf2b: port: eth4\nneighbor: eth1
+
+dc1-spine2 -- dc1-leaf1a: port: eth1\nneighbor: eth2
+dc1-spine2 -- dc1-leaf1b: port: eth2\nneighbor: eth2
+dc1-spine2 -- dc1-leaf2a: port: eth3\nneighbor: eth2
+dc1-spine2 -- dc1-leaf2b: port: eth4\nneighbor: eth2
+
+dc1-leaf1a -- dc1-leaf1b: port: eth3\nneighbor: eth3
+dc1-leaf1a -- dc1-leaf1b: port: eth4\nneighbor: eth4
+dc1-leaf1a -- dc1-l2leaf1a: port: eth5\nneighbor: eth1
+dc1-leaf1b -- dc1-l2leaf1a: port: eth5\nneighbor: eth2
+
+dc1-l2leaf1a -- server01: port: eth3\nneighbor: eth1
+
+dc1-leaf2a -- dc1-leaf2b: port: eth3\nneighbor: eth3
+dc1-leaf2a -- dc1-leaf2b: port: eth4\nneighbor: eth4
+dc1-leaf2a -- dc1-l2leaf2a: port: eth5\nneighbor: eth1
+dc1-leaf2b -- dc1-l2leaf2a: port: eth5\nneighbor: eth2
+
+dc1-l2leaf2a -- server02: port: eth3\nneighbor: eth1
+}

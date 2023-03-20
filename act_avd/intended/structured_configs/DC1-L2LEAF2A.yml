@@ -1,0 +1,91 @@
+static_routes:
+- vrf: default
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.0.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+name_server:
+  source:
+    vrf: default
+  nodes:
+  - 10.255.0.2
+spanning_tree:
+  mode: mstp
+  mst_instances:
+    '0':
+      priority: '32768'
+vrfs:
+  default:
+    ip_routing: false
+management_interfaces:
+  Management1:
+    description: oob_management
+    shutdown: false
+    vrf: default
+    ip_address: 192.168.0.18/24
+    gateway: 192.168.0.1
+    type: oob
+management_api_http:
+  enable_vrfs:
+    default: {}
+  enable_https: true
+eos_cli: "no aaa root\nno username admin\n!\nusername arista privilege 15 role network-admin secret sha512 $6$ZGX/X07MoiWP9hvX$3UaAtOAiBGc54DYHdQt5dsr5P2HLydxjrda51Zw69tSsF4tahXPVj26PwOiZUy/xFRZL3CAkT7.lsOPqWfIbU0\nusername
+  cvpadmin secret sha512 $6$b5ooVf8wwJ9RASO4$lemv5BkGkm4G6J1Ipx1FEdjJ6CGdonsA3rIIW0tda47DZzUDzbsDdjl5HypWq9W887rDqXYgiiAmntMkjl0j61\nusername
+  ec2-user shell /bin/bash nopassword\nusername ec2-user ssh-key ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCx9ovLSX53Xe1tnZsdzF2MZT+amyidXEpHsu7lRWLcGf+XwnRBjh9WZ45W4bzPFum6HthOVL47If4zes6Zb5kS0OK44T4G4gR75Wg+m9Wa6RveyTGG4AFt3hY6fsyFEedNDVYajlRumGmmp8hFphvzc+5djHVFIYuaZ0L7dDVjEeLqBBl+WUGNQoLmIp0c5Fot1PYiE3xIsqUw2SS9waM14JSYlkL5JcNYbb9LkTdD+BUHy3PspUy5Vvl5SdkgsTJaROPFBosfVoMJN8bKpYAJq5kujHLpu0x5Ted/+gt3Ty9X/TRzawQ5AyIJuF3q/fJM3CLqbOYSU3TJh6v7wR/XGcM34F9Z6xxcSzSwC+O0x2JsGt2LudR6fZ0MRptbPH5Kcm4byFVRG4nrwWQ7AZTNJf5hVk+SnLFvpP0cH1EX26daZg1shJ2bRrpEj+gXA95tdv4hqI1Ow6Bhd1ccCY5A9mZIQlDTPLMVm/gvtJ3l3XA6SmWqJ0PHkd2gRbSKzE=
+  root@99ec9ced54b0\nusername service shell /bin/bash secret sha512 $6$IXGGY4/R8KIWlktJ$Cwbq65lDCju2YJcbHybnCw5Xd7yvIxYC0BHXpA06QZhoc278DaXMVtptZX38M/G1ijvFtp7JNkylz8uXXqH6o0\n!\nagent
+  KernelFib environment KERNELFIB_PROGRAM_ALL_ECMP='true'\n!\ndaemon TerminAttr\n  exec /usr/bin/TerminAttr -cvcompression=gzip -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata
+  -cvaddr=192.168.0.5:9910 -cvauth=token,/tmp/token -cvvrf=default -taillogs\n  no shutdown\n"
+ethernet_interfaces:
+  Ethernet1:
+    peer: DC1-LEAF2A
+    peer_interface: Ethernet5
+    peer_type: l3leaf
+    description: DC1-LEAF2A_Ethernet5
+    shutdown: false
+    type: switched
+    channel_group:
+      id: 1
+      mode: active
+  Ethernet2:
+    peer: DC1-LEAF2B
+    peer_interface: Ethernet5
+    peer_type: l3leaf
+    description: DC1-LEAF2B_Ethernet5
+    shutdown: false
+    type: switched
+    channel_group:
+      id: 1
+      mode: active
+  Ethernet3:
+    peer: host2
+    peer_interface: Eth1
+    peer_type: server
+    description: host2_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: '110'
+port_channel_interfaces:
+  Port-Channel1:
+    description: POD2_Po5
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 110,160,170
+vlans:
+  110:
+    tenant: Tenant_A
+    name: Tenant_A_OP_Zone_1
+  160:
+    tenant: Tenant_A
+    name: Tenant_A_VMOTION
+  170:
+    tenant: Tenant_A
+    name: L2-extend
+ip_igmp_snooping:
+  globally_enabled: true

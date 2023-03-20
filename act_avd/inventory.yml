@@ -1,0 +1,66 @@
+---
+all:
+  children:
+    cv_servers:
+      hosts:
+        cv_act1:
+          ansible_host: 10.255.68.127
+          cv_collection: v3
+    ACT_LAB:
+      children:
+        ACT_FABRIC:
+          children:
+            ACT_SPINES:
+              vars:
+                type: spine
+              hosts:
+                DC1-SPINE1:
+                  ansible_host: 192.168.0.11
+                DC1-SPINE2:
+                  ansible_host: 192.168.0.12
+            ACT_L3LEAFS:
+              vars:
+                type: l3leaf
+              children:
+                POD1:
+                  hosts:
+                    DC1-LEAF1A:
+                      ansible_host: 192.168.0.13
+                    DC1-LEAF1B:
+                      ansible_host: 192.168.0.14
+                POD2:
+                  hosts:
+                    DC1-LEAF2A:
+                      ansible_host: 192.168.0.15
+                    DC1-LEAF2B:
+                      ansible_host: 192.168.0.16
+            ACT_L2LEAFS:
+              vars:
+                type: l2leaf
+              hosts:
+                DC1-L2LEAF1A:
+                  ansible_host: 192.168.0.17
+                DC1-L2LEAF2A:
+                  ansible_host: 192.168.0.18
+            ACT_TENANT_NETWORKS:
+              children:
+                ACT_L3LEAFS:
+                ACT_L2LEAFS:
+            ACT_SERVERS:
+              children:
+                ACT_L3LEAFS:
+                ACT_L2LEAFS:
+
+  vars:
+    ansible_user: cvpadmin
+    ansible_password: cvp123!
+    ansible_network_os: arista.eos.eos
+    # Configure privilege escalation
+    ansible_become: true
+    ansible_become_method: enable
+    # HTTPAPI configuration
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_python_interpreter: $(which python3)

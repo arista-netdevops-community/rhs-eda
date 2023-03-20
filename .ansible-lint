@@ -1,0 +1,5 @@
+---
+exclude_paths:
+  - act-avd/intended/
+skip_list:
+  - yaml[line-length]
