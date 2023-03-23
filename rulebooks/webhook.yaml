@@ -1,5 +1,5 @@
 ---
-- name: Listen for events on nats
+- name: Listen for events from cloudvision webhooks
   hosts: all
 
   ## Define our source for events
@@ -10,12 +10,11 @@
         port: 5000
 
   rules:
-    - name: check down interface
+    - name: Get webhook data store as a fact.
       condition:
         all:
-          - event.payload.receiver == "EDAwebhook"
-          - event.payload.status == "firing"
-
+          ### This needs to key a bit further for sure other than this generic regex of the string search.
+          - event.payload is search("Device In Maintenance Mode", ignorecase=true)
   ## Create an action once the data has hit the condition.
       action:
         run_playbook:
