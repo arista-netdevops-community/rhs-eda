@@ -13,9 +13,14 @@
     - name: Get webhook data store as a fact.
       condition:
         all:
-          ### This needs to key a bit further for sure other than this generic regex of the string search.
-          - event.payload is search("Device In Maintenance Mode", ignorecase=true)
-  ## Create an action once the data has hit the condition.
+          - event.payload.receiver == "EDAwebhook" and event.payload.alerts is selectattr('status', 'search', "firing") and event.payload.alerts is selectattr('labels.eventType', 'search', "DEVICE_MAINTENANCE_MODE")
       action:
         run_playbook:
-          name: test.yaml
+          name: set.yaml
+    - name: Once MM is unset
+      condition:
+        all:
+        - event.payload.receiver == "EDAwebhook" and event.payload.alerts is selectattr('status', 'search', "resolved") and event.payload.alerts is selectattr('labels.eventType', 'search', "DEVICE_MAINTENANCE_MODE")
+      action:
+        run_playbook:
+          name: unset.yaml
