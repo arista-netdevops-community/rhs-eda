@@ -1,26 +1,35 @@
 ---
-- name: Listen for events from cloudvision webhooks
+- name: CVPWebhookAlerter
   hosts: all
-
-  ## Define our source for events
-
   sources:
-    - ansible.eda.webhook:
+    - name: cvp
+      ansible.eda.alertmanager:
         host: 0.0.0.0
         port: 5000
-
+        skip_original_data: true
+      filters:
+       - ansible.eda.json_filter:
+           exclude_keys:
+             - receiver
+             - commonLabels
+             - groupLabels
+             - commonAnnotations
+             - externalURL
+             - groupKey
+             - truncatedAlerts
+             - version
   rules:
-    - name: Get webhook data store as a fact.
+    - name: Condition for firing into Maintenance mode.
       condition:
         all:
-          - event.payload.receiver == "EDAwebhook" and event.payload.alerts is selectattr('status', 'search', "firing") and event.payload.alerts is selectattr('labels.eventType', 'search', "DEVICE_MAINTENANCE_MODE")
+          - event.alert.status == "firing" and event.alert.labels.eventType == "DEVICE_MAINTENANCE_MODE"
       action:
         run_playbook:
           name: set.yaml
-    - name: Once MM is unset
+    - name: Condition for resolving into Maintenance mode.
       condition:
         all:
-        - event.payload.receiver == "EDAwebhook" and event.payload.alerts is selectattr('status', 'search', "resolved") and event.payload.alerts is selectattr('labels.eventType', 'search', "DEVICE_MAINTENANCE_MODE")
+          - event.alert.status == "resolved" and event.alert.labels.eventType == "DEVICE_MAINTENANCE_MODE"
       action:
         run_playbook:
           name: unset.yaml
