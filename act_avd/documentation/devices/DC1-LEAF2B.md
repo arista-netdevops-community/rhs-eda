@@ -56,7 +56,7 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management1 | oob_management | oob | default | 192.168.0.16/24 | 192.168.0.1 |
+| Management1 | oob_management | oob | default | 192.168.0.16/24 | 192.168.0.5 |
 
 #### IPv6
 
@@ -490,13 +490,13 @@ ip routing vrf Tenant_A_OP_Zone
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
-| default | 0.0.0.0/0 | 192.168.0.1 | - | 1 | - | - | - |
+| default | 0.0.0.0/0 | 192.168.0.5 | - | 1 | - | - | - |
 
 ### Static Routes Device Configuration
 
 ```eos
 !
-ip route 0.0.0.0/0 192.168.0.1
+ip route 0.0.0.0/0 192.168.0.5
 ```
 
 ## Router BGP

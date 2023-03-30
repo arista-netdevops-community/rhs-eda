@@ -12,7 +12,7 @@ CVP_CONFIGLETS:
     \   channel-group 1 mode active\n!\ninterface Ethernet3\n   description Server01_Eth1\n\
     \   no shutdown\n   switchport access vlan 110\n   switchport mode access\n  \
     \ switchport\n!\ninterface Management1\n   description oob_management\n   no shutdown\n\
-    \   ip address 192.168.0.17/24\n!\nip routing\n!\nip route 0.0.0.0/0 192.168.0.1\n\
+    \   ip address 192.168.0.17/24\n!\nip routing\n!\nip route 0.0.0.0/0 192.168.0.5\n\
     !\nmanagement api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf\
     \ default\n      no shutdown\n!\nno aaa root\nno username admin\n!\nusername arista\
     \ privilege 15 role network-admin secret sha512 $6$ZGX/X07MoiWP9hvX$3UaAtOAiBGc54DYHdQt5dsr5P2HLydxjrda51Zw69tSsF4tahXPVj26PwOiZUy/xFRZL3CAkT7.lsOPqWfIbU0\n\
@@ -37,7 +37,7 @@ CVP_CONFIGLETS:
     \   channel-group 1 mode active\n!\ninterface Ethernet3\n   description host2_Eth1\n\
     \   no shutdown\n   switchport access vlan 110\n   switchport mode access\n  \
     \ switchport\n!\ninterface Management1\n   description oob_management\n   no shutdown\n\
-    \   ip address 192.168.0.18/24\n!\nip routing\n!\nip route 0.0.0.0/0 192.168.0.1\n\
+    \   ip address 192.168.0.18/24\n!\nip routing\n!\nip route 0.0.0.0/0 192.168.0.5\n\
     !\nmanagement api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf\
     \ default\n      no shutdown\n!\nno aaa root\nno username admin\n!\nusername arista\
     \ privilege 15 role network-admin secret sha512 $6$ZGX/X07MoiWP9hvX$3UaAtOAiBGc54DYHdQt5dsr5P2HLydxjrda51Zw69tSsF4tahXPVj26PwOiZUy/xFRZL3CAkT7.lsOPqWfIbU0\n\
@@ -90,7 +90,7 @@ CVP_CONFIGLETS:
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id POD1\n   local-interface Vlan4094\n   peer-address\
     \ 10.255.252.1\n   peer-link Port-Channel3\n   reload-delay mlag 300\n   reload-delay\
-    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nroute-map RM-CONN-2-BGP\
+    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.5\n!\nroute-map RM-CONN-2-BGP\
     \ permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map\
     \ RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link\
     \ less preferred on spines to ensure optimal routing\n   set origin incomplete\n\
@@ -183,7 +183,7 @@ CVP_CONFIGLETS:
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id POD1\n   local-interface Vlan4094\n   peer-address\
     \ 10.255.252.0\n   peer-link Port-Channel3\n   reload-delay mlag 300\n   reload-delay\
-    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nroute-map RM-CONN-2-BGP\
+    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.5\n!\nroute-map RM-CONN-2-BGP\
     \ permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map\
     \ RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link\
     \ less preferred on spines to ensure optimal routing\n   set origin incomplete\n\
@@ -276,7 +276,7 @@ CVP_CONFIGLETS:
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id POD2\n   local-interface Vlan4094\n   peer-address\
     \ 10.255.252.5\n   peer-link Port-Channel3\n   reload-delay mlag 300\n   reload-delay\
-    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nroute-map RM-CONN-2-BGP\
+    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.5\n!\nroute-map RM-CONN-2-BGP\
     \ permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map\
     \ RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link\
     \ less preferred on spines to ensure optimal routing\n   set origin incomplete\n\
@@ -369,7 +369,7 @@ CVP_CONFIGLETS:
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
     !\nmlag configuration\n   domain-id POD2\n   local-interface Vlan4094\n   peer-address\
     \ 10.255.252.4\n   peer-link Port-Channel3\n   reload-delay mlag 300\n   reload-delay\
-    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nroute-map RM-CONN-2-BGP\
+    \ non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.5\n!\nroute-map RM-CONN-2-BGP\
     \ permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nroute-map\
     \ RM-MLAG-PEER-IN permit 10\n   description Make routes learned over MLAG Peer-link\
     \ less preferred on spines to ensure optimal routing\n   set origin incomplete\n\
@@ -436,7 +436,7 @@ CVP_CONFIGLETS:
     \   no shutdown\n   ip address 192.0.255.1/32\n!\ninterface Management1\n   description\
     \ oob_management\n   no shutdown\n   ip address 192.168.0.11/24\n!\nip routing\n\
     !\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n   seq 10 permit 192.0.255.0/24 eq\
-    \ 32\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nroute-map RM-CONN-2-BGP permit 10\n\
+    \ 32\n!\nip route 0.0.0.0/0 192.168.0.5\n!\nroute-map RM-CONN-2-BGP permit 10\n\
     \   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n!\nrouter bfd\n  \
     \ multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp 65001\n   router-id\
     \ 192.0.255.1\n   no bgp default ipv4-unicast\n   distance bgp 20 200 200\n  \
@@ -493,7 +493,7 @@ CVP_CONFIGLETS:
     \ description EVPN_Overlay_Peering\n   no shutdown\n   ip address 192.0.255.2/32\n\
     !\ninterface Management1\n   description oob_management\n   no shutdown\n   ip\
     \ address 192.168.0.12/24\n!\nip routing\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
-    \   seq 10 permit 192.0.255.0/24 eq 32\n!\nip route 0.0.0.0/0 192.168.0.1\n!\n\
+    \   seq 10 permit 192.0.255.0/24 eq 32\n!\nip route 0.0.0.0/0 192.168.0.5\n!\n\
     route-map RM-CONN-2-BGP permit 10\n   match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     !\nrouter bfd\n   multihop interval 1200 min-rx 1200 multiplier 3\n!\nrouter bgp\
     \ 65001\n   router-id 192.0.255.2\n   no bgp default ipv4-unicast\n   distance\
