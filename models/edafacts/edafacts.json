@@ -1,0 +1,43 @@
+{
+	"ansible_eda": {
+		"event": {
+			"alert": {
+				"annotations": {
+					"description": "Device SN-DC1-LEAF1A is under maintenance",
+					"title": "Device In Maintenance Mode"
+				},
+				"endsAt": "0001-01-01T00:00:00Z",
+				"fingerprint": "79a5679bb4c8994a",
+				"generatorURL": "https://10.255.68.127/cv/events/79a5679bb4c8994a/1680529504489",
+				"labels": {
+					"deviceHostname": "DC1-LEAF1A",
+					"deviceId": "SN-DC1-LEAF1A",
+					"deviceTag_Container": "ACT_FABRIC,ACT_L3LEAFS,POD1,Tenant",
+					"deviceTag_bgp": "enabled",
+					"deviceTag_device": "DC1-LEAF1A,DC1-LEAF1A-SN-DC1-LEAF1A,SN-DC1-LEAF1A",
+					"deviceTag_eos": "4.29.2F",
+					"deviceTag_eostrain": "4.29",
+					"deviceTag_hostname": "DC1-LEAF1A",
+					"deviceTag_model": "vEOS-lab",
+					"deviceTag_mpls": "false",
+					"deviceTag_serialnumber": "SN-DC1-LEAF1A",
+					"deviceTag_systype": "fixed",
+					"deviceTag_tapagg": "none",
+					"deviceTag_terminattr": "v1.25.0",
+					"deviceTag_topology_network_type": "datacenter",
+					"deviceTag_topology_pod": "DC1-SPINE1-DC1-SPINE2",
+					"deviceTag_topology_rack": "POD1",
+					"deviceTag_topology_type": "leaf",
+					"deviceTag_ztp": "false",
+					"eventKey": "79a5679bb4c8994a",
+					"eventType": "DEVICE_MAINTENANCE_MODE",
+					"interfaceId": "",
+					"severity": "INFO",
+					"turbineId": ""
+				},
+				"startsAt": "2023-04-03T09:45:04.48963668-04:00",
+				"status": "firing"
+			}
+		}
+	}
+}
