@@ -1,0 +1,33 @@
+---
+- name: Service now ticket creation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - servicenow.itsm
+  tasks:
+
+  - name: Retrieve all incidents
+    servicenow.itsm.incident_info:
+      query:
+        - short_description: LIKE WORKING!
+        - state: = new
+    register: result
+
+  - name: Create incident
+    servicenow.itsm.incident:
+      state: new
+      caller: ansible.eda
+      short_description: WORKING!
+      description: Device is currently in maintenance mode
+      attachments:
+        # - path: ./config/test.txt
+      impact: low
+      urgency: low
+      other:
+        cmdb_ci: DC1-L2LEAF1A
+    # when: result.records | length < 1
+
+  - name: debug if not existing
+    debug:
+      msg: "{{ result.records }}"
