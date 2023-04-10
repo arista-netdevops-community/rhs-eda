@@ -1,0 +1,40 @@
+---
+- name: Get running config for backups
+  hosts: localhost
+  connection: local
+  vars:
+    deviceHostname: "{{ ansible_eda.event.alert.labels.deviceHostname }}"
+  gather_facts: false
+  tasks:
+
+  - name: Get all incidents
+    servicenow.itsm.incident_info:
+      query:
+        - short_description: "LIKE {{ deviceHostname }} is currently in maintenance mode"
+        - state: = new
+    register: incidents
+
+  - name: stuff
+    debug:
+      msg: "{{ incidents }}"
+
+  - name: Close Ticket
+    servicenow.itsm.incident:
+      state: closed
+      number: "{{ incidents.records.0.number }}"
+      close_code: "Solved (Permanently)"
+      close_notes: "{{ deviceHostname }} is back in operation"
+
+  - name: Notify device in maintenance mode
+    community.general.slack:
+      token: "{{ lookup('ansible.builtin.env', 'SLACK_TOKEN') }}"
+      blocks:
+        - type: section
+          text:
+            type: mrkdwn
+            text: |-
+              *Maintenance Notification*
+
+              - `{{ deviceHostname }}` maintenance mode has been disabled
+      channel: '#demo'
+      username: 'innovate-notify'

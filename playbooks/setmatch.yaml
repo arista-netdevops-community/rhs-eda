@@ -1,0 +1,62 @@
+- name: Get running config for backups  
+  hosts: CVP-SERVER
+  connection: local
+  vars:
+    devname: "AVD_{{ ansible_eda.event.alert.labels.deviceHostname }}"
+    deviceHostname: "{{ ansible_eda.event.alert.labels.deviceHostname }}"
+  gather_facts: false
+  tasks:
+
+  - name: Collect devices facts from {{inventory_hostname}}
+    arista.cvp.cv_facts_v3:
+     facts:
+       - configlets
+     regexp_filter: "{{ devname }}"
+    register: FACTS_DEVICES
+
+  - name: Print stuff
+    debug:
+      var: FACTS_DEVICES.data.cvp_configlets
+
+  - name: Save configuration
+    local_action:
+     module: copy
+     content: "{{ FACTS_DEVICES.data.cvp_configlets[devname]}}"
+     dest: "/tmp/config.txt"
+
+  - name: Create incident
+    servicenow.itsm.incident:
+      state: new
+      caller: ansible.eda
+      short_description: "{{ deviceHostname }} is currently in maintenance mode"
+      description: |
+        {{ deviceHostname }} is currently in maintenance mode
+      attachments:
+        - path: /tmp/config.txt
+      impact: low
+      urgency: low
+      other:
+        cmdb_ci: "{{ deviceHostname }}"
+        work_notes: |
+          View events on CloudVision for troubleshooting:
+            - https://10.255.68.127/cv/events?query=device%3{{ deviceHostname }}%20
+    delegate_to: localhost
+
+  - name: Notify device in maintenance mode
+    community.general.slack:
+      token: "{{ lookup('ansible.builtin.env', 'SLACK_TOKEN') }}"
+      blocks:
+        - type: section
+          text:
+            type: mrkdwn
+            text: |-
+              *Maintenance Notification*
+
+              - `{{ deviceHostname }}` is currently in maintenance mode
+      attachments:
+        - text: Network diagram is attached
+          image_url: https://user-images.githubusercontent.com/34353177/229863921-05c2c6be-a547-45c8-8daa-d6e326d9bc43.jpg
+      channel: '#demo'
+      username: 'innovate-notify'
+          
+    delegate_to: localhost

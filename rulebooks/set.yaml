@@ -1,9 +1,0 @@
-- hosts: localhost
-  connection: local
-  gather_facts: yes
-  fact_path: /home/arista/eda
-  tasks:
-    - debug:
-       var: vars
-    - name: copy to file
-      local_action: copy content="{{ vars | to_nice_json }}" dest="/home/arista/eda/edafacts.json"

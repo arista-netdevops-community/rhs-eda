@@ -25,11 +25,11 @@
           - event.alert.status == "firing" and event.alert.labels.eventType == "DEVICE_MAINTENANCE_MODE"
       action:
         run_playbook:
-          name: set.yaml
+          name: /home/arista/rhs-eda/playbooks/setmatch.yaml
     - name: Condition for resolving into Maintenance mode.
       condition:
         all:
           - event.alert.status == "resolved" and event.alert.labels.eventType == "DEVICE_MAINTENANCE_MODE"
       action:
         run_playbook:
-          name: unset.yaml
+          name: /home/arista/rhs-eda/playbooks/unsetmatch.yaml
