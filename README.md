@@ -44,14 +44,18 @@ All other information such as conditions, rules and alternative installations fe
 
 ### Set your environmental variables
 export SN_HOST=https://devinstance.service-now.com
+<br>
 export SN_USERNAME=admin
+<br>
 export SN_PASSWORD=password1234
+<br>
 export SN_TIMEOUT=60
+<br>
 export SLACK_TOKEN=T0256789M/B03ffffffff/aaabbbccccccc
 
 
 From the root of this directory.
 
-```
+```bash
 ansible-rulebook --rulebook rulebooks/cvp-alerts.yaml -S $PWD -i rulebooks/inventory --verbose
 ```
